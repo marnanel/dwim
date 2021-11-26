@@ -32,7 +32,7 @@ function onDeviceReady() {
         tag.name = 'span'
         console.log(tag)
 
-        cordova.plugin.http.get('http://127.0.0.1:6888/',
+        cordova.plugin.http.get('http://127.0.0.1:6887/login',
                 {},
                 {},
                 function(response) {
