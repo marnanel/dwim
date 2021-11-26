@@ -6,10 +6,11 @@ from http import HTTPStatus
 import requests
 import argparse
 import os
+import random
 
 class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
-    server_version = 'fake-dw/0.0.1'
+    server_version = 'fake-dw-gateway/0.0.1'
 
     keep_headers = [
             'content-type',
@@ -71,15 +72,61 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
 class ErsatzHandler(http.server.BaseHTTPRequestHandler):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    server_version = 'fake-dw-ersatz/0.0.1'
 
-        self.template_dir = os.path.join(
-                os.path.dirname(__file__),
-                'templates',
+    def do_GET(self):
+        fields = {
+                'content-type': 'text/html',
+                'status': 200,
+                }
+
+        if self.path=='/login':
+            session = hex(random.randint(0, 65535))
+            self.server.session_id = session
+            fields['template-name']= 'login'
+            fields['set-cookie'] = f"ljuniq={session}; domain=localhost; path=/; expires=Sun, 23-Jan-2200 19:18:56 GMT"
+            fields['session'] = session
+        else:
+            self.send_error(404)
+            return
+
+        with open(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    'templates',
+                    fields['template-name'],
+                    ),
+                'r',
+                ) as template:
+            content = template.read() % fields
+
+        self.send_response(fields['status'])
+        self.send_header(
+                'Content-Type',
+                fields['content-type'],
+                )
+        self.send_header(
+                'Content-Length',
+                len(content),
+                )
+        self.send_header(
+                'Access-Control-Allow-Origin',
+                '*',
                 )
 
-        print(self.template_dir)
+        for f in [
+                'Set-Cookie',
+                ]:
+            if f.lower() in fields:
+                self.send_header(f, fields[f.lower()])
+
+        self.end_headers()
+
+        self.wfile.write(
+                bytes(
+                    content,
+                    encoding='UTF-8',
+                    ))
 
 class TCPServerWithSettings(socketserver.TCPServer):
 
