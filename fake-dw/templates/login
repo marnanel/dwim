@@ -3,8 +3,6 @@
     <head>
     <title>Log in</title>
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    
             <script type="text/javascript">
                 var Site;
                 if (!Site)
@@ -12,27 +10,24 @@
 
                 var site_p = {"user_domain": "dreamwidth.org",
 "ctx_popup": 1,
-"imgprefix": "https:/img",
+"imgprefix": ":/img",
 "cmax_comment": 16000,
 "media_embed_enabled": 1,
 "ctx_popup_icons": 1,
 "currentJournalBase": "",
 "inbox_update_poll": 1,
-"siteroot": "https:",
-"iconprefix": "https://v.dreamwidth.org",
+"siteroot": ":",
+"iconprefix": "://v.dreamwidth.org",
 "esn_async": 1,
 "ctx_popup_userhead": 1,
 "has_remote": 0,
 "currentJournal": "",
-"statprefix": "https:/stc"};
+"statprefix": ":/stc"};
                 var site_k = ["user_domain", "ctx_popup", "imgprefix", "cmax_comment", "media_embed_enabled", "ctx_popup_icons", "currentJournalBase", "inbox_update_poll", "siteroot", "iconprefix", "esn_async", "ctx_popup_userhead", "has_remote", "currentJournal", "statprefix"];
                 for (var i = 0; site_k.length > i; i++) {
                     Site[site_k[i]] = site_p[site_k[i]];
                 }
            </script>
-        <link rel="stylesheet" type="text/css" href="https:/stc/??lj_base.css,esn.css,contextualhover.css,jquery/jquery.ui.theme.smoothness.css,lj_base-app.css,base-colors-light.css,reset.css,tropo/tropo-base.css,tropo/tropo-red.css?v=1593299549" />
-<link rel="stylesheet" type="text/css" href="https:/stc/??widgets/login.css?v=1587938565" />
-<script type="text/javascript" src="/js/??6alib/core.js,6alib/dom.js,6alib/httpreq.js,livejournal.js,esn.js,6alib/ippu.js,lj_ippu.js,6alib/hourglass.js,contextualhover.js,nav.js?v=1595720038"></script>
 
     
 
@@ -54,7 +49,6 @@
                 
                 <div id="masthead" role="banner">
                     <span id="logo">
-                        <a href="https:/"><img alt="Dreamwidth Studios" src='https:/img/tropo-red/dw_logo.png' /></a>
                     </span>
                 </div>
 
@@ -70,9 +64,9 @@
 </fieldset>
 <fieldset class='pkg nostyle'>
 <label for='lj_loginwidget_password' class='left'>Password</label>
-<input type='password' id='lj_loginwidget_password' name='password' class='lj_login_password text' size='20' maxlength='72' tabindex='12' /><a href='https:/lostinfo' class='small-link' tabindex='16'>Forgot your password?</a>
+<input type='password' id='lj_loginwidget_password' name='password' class='lj_login_password text' size='20' maxlength='72' tabindex='12' /><a href='/lostinfo' class='small-link' tabindex='16'>Forgot your password?</a>
 </fieldset>
-<p><input type='checkbox' name='remember_me' id='remember_me' value='1' tabindex='13' /> <label for='remember_me'>Remember me</label></p><p><input name='action:login' type='submit' value='Log in' tabindex='14' /> <a href='https:/openid/' class='small-link' tabindex='15'>Log in with OpenID</a></p></form>
+<p><input type='checkbox' name='remember_me' id='remember_me' value='1' tabindex='13' /> <label for='remember_me'>Remember me</label></p><p><input name='action:login' type='submit' value='Log in' tabindex='14' /> <a href='/openid/' class='small-link' tabindex='15'>Log in with OpenID</a></p></form>
 </div><!-- end .appwidget-login -->
 <div class='login-create-account'>
 <hr class='hr' />
@@ -86,73 +80,13 @@
                 </div>
 
                  
-<div id="account-links" role="navigation" aria-label="Account Links"> <form action='https:/login?ret=1' method='post' class='lj_login_form'><input type="hidden" name="returnto" value="" /><input type='hidden' name='chal' class='lj_login_chal' value='c0:1637780400:1136:300:vDj8O3s4LdBsZAZiYqFI:2056608643f72ae24a1bdac9f9990ad6' />
+<div id="account-links" role="navigation" aria-label="Account Links"> <form action=':/login?ret=1' method='post' class='lj_login_form'><input type="hidden" name="returnto" value="" /><input type='hidden' name='chal' class='lj_login_chal' value='c0:1637780400:1136:300:vDj8O3s4LdBsZAZiYqFI:2056608643f72ae24a1bdac9f9990ad6' />
     <input type='hidden' name='response' class='lj_login_response' value='' />
-    <table summary='' id='login-table'><tr><td><label for='login_user'>Account name:</label></td><td class='input-cell' colspan='2'><input name="user" id="login_user" size="20" maxlength="27" tabindex="1" aria-required="true" /> <a href='https:/openid/' tabindex=5>Log in with OpenID?</a></td></tr><tr><td><label for='login_password'>Password:</label></td><td class='input-cell' colspan='2'><input type="password" name="password" id="login_password" size="20" tabindex="2" aria-required="true" class="lj_login_password"> <a href='https:/lostinfo' tabindex=6>Forget your password?</a></td></tr><tr><td>&nbsp;</td><td class='remember-me-cell'><input type="checkbox" name="remember_me" id="login_remember_me" value="1" tabindex="3" /> <label for='login_remember_me'>Remember me</label></td><td><input type="submit" name="login" value="Log in" tabindex="4"/></td></tr></table></form> 
+    <table summary='' id='login-table'><tr><td><label for='login_user'>Account name:</label></td><td class='input-cell' colspan='2'><input name="user" id="login_user" size="20" maxlength="27" tabindex="1" aria-required="true" /> <a href='/openid/' tabindex=5>Log in with OpenID?</a></td></tr><tr><td><label for='login_password'>Password:</label></td><td class='input-cell' colspan='2'><input type="password" name="password" id="login_password" size="20" tabindex="2" aria-required="true" class="lj_login_password"> <a href='/lostinfo' tabindex=6>Forget your password?</a></td></tr><tr><td>&nbsp;</td><td class='remember-me-cell'><input type="checkbox" name="remember_me" id="login_remember_me" value="1" tabindex="3" /> <label for='login_remember_me'>Remember me</label></td><td><input type="submit" name="login" value="Log in" tabindex="4"/></td></tr></table></form> 
 </div> 
                 
-                <nav role="navigation" aria-label="Site Navigation">
-                    <ul class="left"><li id='create_topnav' class='topnav has-dropdown'><a href='https:/nav/create'>Create</a>
-<ul id='create_subnav' class='subnav_container dropdown'>
-                <li class='subnav'><a href='https:/create'>Create Account</a></li>
-                <li class='subnav'><a href='https:/manage/settings/?cat=display'>Display Preferences</a></li>
-</ul>
-</li><li id='explore_topnav' class='topnav has-dropdown'><a href='https:/nav/explore'>Explore</a>
-<ul id='explore_subnav' class='subnav_container dropdown'>
-                <li class='subnav'><a href='https:/interests'>Interests</a></li>
-                <li class='subnav'><a href='https:/directorysearch'>Directory Search</a></li>
-                <li class='subnav'><a href='https:/search'>Site and Journal Search</a></li>
-                <li class='subnav'><a href='https:/latest'>Latest Things</a></li>
-                <li class='subnav'><a href='https:/random'>Random Journal</a></li>
-                <li class='subnav'><a href='https:/community/random'>Random Community</a></li>
-                <li class='subnav'><a href='https:/support/faq'>FAQ</a></li>
-</ul>
-</li><li id='shop_topnav' class='topnav has-dropdown'><a href='https:/nav/shop'>Shop</a>
-<ul id='shop_subnav' class='subnav_container dropdown'>
-                <li class='subnav'><a href='https:/shop'>Buy Dreamwidth Services</a></li>
-                <li class='subnav'><a href='https:/shop/randomgift'>Gift a Random User</a></li>
-                <li class='subnav'><a href='https://www.zazzle.com/dreamwidth*'>DW Merchandise</a></li>
-</ul>
-</li>
-</ul>
-                    <div role="search">
-                    <div class='appwidget appwidget-search' id='LJWidget_25'>
-<form action='https:/multisearch' method='post'>
-<input type="text" title="Search" name="q" class="text" id="search" size="20" /> <select name="type" class="select">
-<option value="int" selected='selected'>Interest</option>
-<option value="region">Region</option>
-<option value="nav_and_user">Site and Account</option>
-<option value="faq">FAQ</option>
-<option value="email">Email</option>
-<option value="im">IM Info</option>
-</select> <input type='submit' value="Go" /></form></div><!-- end .appwidget-search -->
-
-                    </div>
-                </nav>
-                <footer role="contentinfo">
-                    <ul>
-    <li><a href="https:/legal/privacy">Privacy Policy</a> &bull; </li>
-    <li><a href="https:/legal/tos">Terms of Service</a> &bull; </li>
-    <li><a href="https:/legal/diversity">Diversity Statement</a> &bull; </li>
-    <li><a href="https:/legal/principles">Guiding Principles</a> &bull; </li>
-    <li><a href="https:/site/">Site Map</a> &bull; </li>
-    <li><a href="https:/site/suggest">Make a Suggestion</a> &bull; </li>
-    <li><a href="https:/site/opensource">Open Source</a> &bull; </li>
-    <li><a href="https:/support">Help/Support</a></li>
-</ul>
-<p>Copyright &copy; 2009-2021 Dreamwidth Studios, LLC. <a href="/site/opensource">Some</a> rights reserved.</p>
-                </footer>
             </div>
         </div>
-        <div id='statistics' style='text-align: left; font-size:0; line-height:0; height:0; overflow:hidden;'><script type="text/javascript">
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</div>
      <div id="shim-alpha"> </div>
     </body>
 </html>
