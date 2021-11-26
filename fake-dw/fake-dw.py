@@ -7,9 +7,6 @@ import requests
 import argparse
 import os
 
-UPSTREAM = 'https://marnanel.org'
-PORT = 6888
-
 class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
     server_version = 'fake-dw/0.0.1'
