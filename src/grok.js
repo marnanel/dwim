@@ -8,15 +8,23 @@ export function grok_login1() {
                 {},
                 {},
                 function(response) {
-                        console.log(response.status);
-                        console.log(response.data);
                         var soup = new JSSoup(response.data);
-                        var tag = soup.find('head');
-                        console.log(tag)
+
+                        // jssoup apparently doesn't let you search
+                        // by id at present
+                        for (var tag of soup.findAll('input')) {
+                                if (tag.attrs.name=='lj_form_auth') {
+                                        result['auth'] = tag.attrs.value;
+                                        break;
+                                }
+                        }
+
+                        result['success'] = true;
 
                 },
                 function(response) {
-                        console.error(response.error);
+                        result['success'] = false;
+                        result['message'] = response.error;
                 });
 
         return result;
