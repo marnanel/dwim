@@ -7,6 +7,6 @@ document.addEventListener('deviceready', onDeviceReady, false);
 function onDeviceReady() {
         console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
 
-        login1 = grok_login1();
+        var login1 = grok_login1();
         console.log(login1);
 }
