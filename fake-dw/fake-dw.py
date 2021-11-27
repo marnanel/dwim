@@ -46,7 +46,7 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
             print(e)
 
     def request_url(self):
-        result = f'{self.server.upstream}{self.path}'
+        result = f'{self.server.settings.upstream}{self.path}'
         print(result)
         return result
 
