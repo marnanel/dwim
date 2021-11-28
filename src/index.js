@@ -1,5 +1,6 @@
 import {
         grok_login1,
+        grok_login2,
 } from './grok.js';
 
 document.addEventListener('deviceready', onDeviceReady, false);
@@ -7,6 +8,19 @@ document.addEventListener('deviceready', onDeviceReady, false);
 function onDeviceReady() {
         console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
 
-        var login1 = grok_login1();
-        console.log(login1);
+        grok_login1(handle_login1);
+
+}
+
+function handle_login1(login1) {
+        grok_login2(
+                handle_login2,
+                login1['auth'],
+                'wombat',
+                'hunter2',
+        )
+}
+
+function handle_login2(login2) {
+        console.log(login2);
 }
