@@ -3,10 +3,13 @@
 import http.server
 import socketserver
 from http import HTTPStatus
+from urllib.parse import parse_qs
 import requests
 import argparse
 import os
 import random
+
+LJ_FORM_AUTH_FORMAT = "c0:1637780400:1136:86400:5Asn7kYkEd-0-09Z5PuIllU4vZho:%(session)s"
 
 class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
@@ -15,6 +18,7 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
     keep_headers = [
             'content-type',
             'content-length',
+            'set-cookie',
             ]
 
     def do_HEAD(self):
@@ -25,8 +29,9 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
         self.transfer_status_and_headers(r)
 
     def do_OPTIONS(self):
-        r = requests.get(
+        r = requests.options(
                 self.request_url(),
+                headers = self.outgoing_headers(),
                 )
 
         self.transfer_status_and_headers(r)
@@ -34,16 +39,29 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         r = requests.get(
                 self.request_url(),
+                headers = self.outgoing_headers(),
                 stream = True,
                 )
 
         self.transfer_status_and_headers(r)
+        self.transfer_body(r)
 
-        try:
-            for chunk in r.iter_content(chunk_size=1024):
-                self.wfile.write(chunk)
-        except ConnectionError as e:
-            print(e)
+    def do_POST(self):
+
+        length = int(self.headers["Content-Length"])
+        payload = self.rfile.read(length)
+
+        print(payload)
+
+        r = requests.post(
+                self.request_url(),
+                headers = self.outgoing_headers(),
+                data = payload,
+                stream = True,
+                )
+
+        self.transfer_status_and_headers(r)
+        self.transfer_body(r)
 
     def request_url(self):
         result = f'{self.server.settings.upstream}{self.path}'
@@ -70,22 +88,91 @@ class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
         self.end_headers()
 
+    def transfer_body(self, r):
+        length = int(r.headers["Content-Length"])
+        try:
+            for chunk in r.iter_content(chunk_size=length):
+                with open('/tmp/g','ab') as f:
+                    f.write(chunk)
+                self.wfile.write(chunk)
+
+        except ConnectionError as e:
+            print('transfer_body error:', e)
+
+    def outgoing_headers(self):
+        SAFE_HEADERS = [
+                'user-agent', 'accept', 'accept-language',
+                'accept-encoding',
+                'content-type', 'content-length',
+                'cookie', 'upgrade-insecure-requests',
+                ]
+        result = {}
+
+        for f,v in self.headers.items():
+            fl = f.lower()
+            if fl in SAFE_HEADERS:
+                result[f] = v
+            elif fl=='origin':
+                result[f] = self.request_url()
+
+        return result
+
 class ErsatzHandler(http.server.BaseHTTPRequestHandler):
 
     server_version = 'fake-dw-ersatz/0.0.1'
 
     def do_GET(self):
+        self.send_stuff(
+                method='GET',
+                )
+
+    def do_POST(self):
+        self.send_stuff(
+                method='POST',
+                )
+
+    def send_stuff(self, method):
+
         fields = {
                 'content-type': 'text/html',
                 'status': 200,
                 }
 
+        if method=='POST':
+            length = int(self.headers["Content-Length"])
+            payload = self.rfile.read(length)
+
+            query = parse_qs(payload)
+            print('Query -->', query)
+            print('Headers -->', self.headers)
+
         if self.path=='/login':
-            session = hex(random.randint(0, 65535))
-            self.server.session_id = session
-            fields['template-name']= 'login'
-            fields['set-cookie'] = f"ljuniq={session}; domain=localhost; path=/; expires=Sun, 23-Jan-2200 19:18:56 GMT"
-            fields['session'] = session
+
+            if method=='GET':
+
+                session = hex(random.randint(0, 65535))
+                self.server.session_id = session
+                fields['template-name']= 'login'
+                fields['set-cookie'] = f"ljuniq={session}; domain=localhost; path=/; expires=Sun, 23-Jan-2200 19:18:56 GMT"
+                fields['session'] = session
+                self.server.lj_form_auth = LJ_FORM_AUTH_FORMAT % fields
+
+            elif method=='POST':
+
+                if not self.check_headers(query,
+                        [
+                            ('user', 'wombat', 'Unknown user'),
+                            ('password', 'hunter2', 'Wrong password'),
+                            ('lj_form_auth', self.server.lj_form_auth,
+                                'Wrong auth string'),
+                            ],
+                        ):
+                   return
+
+                fields['template-name'] = 'logged-in'
+            else:
+                self.send_error(405, 'Unknown method')
+
         else:
             self.send_error(404)
             return
@@ -127,6 +214,26 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
                     content,
                     encoding='UTF-8',
                     ))
+
+    def check_headers(self, query, checks):
+
+        for (field, value, message) in checks:
+
+            field = bytes(field, encoding='ascii')
+            value = [bytes(value, encoding='ascii')]
+
+            if field not in query:
+                self.send_error(410,
+                        f'{message}: {field} missing')
+                return False
+
+            elif query[field]!=value:
+                self.send_error(410,
+                        f'{message}: got {query[field]}, wanted {value}')
+                return False
+
+        return True
+
 
 class TCPServerWithSettings(socketserver.TCPServer):
 

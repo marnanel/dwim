@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Welcome back to Dreamwidth!</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+            <script type="text/javascript">
+                var Site;
+                if (!Site)
+                    Site = {};
+
+                var site_p = {"iconprefix": "https://v.dreamwidth.org",
+"ctx_popup_userhead": 1,
+"siteroot": "",
+"user_domain": "dreamwidth.org",
+"has_remote": 1,
+"inbox_update_poll": 1,
+"imgprefix": "/img",
+"ctx_popup_icons": 1,
+"esn_async": 1,
+"currentJournal": "",
+"cmax_comment": 16000,
+"currentJournalBase": "",
+"media_embed_enabled": 1,
+"ctx_popup": 1,
+"statprefix": "/stc"};
+                var site_k = ["iconprefix", "ctx_popup_userhead", "siteroot", "user_domain", "has_remote", "inbox_update_poll", "imgprefix", "ctx_popup_icons", "esn_async", "currentJournal", "cmax_comment", "currentJournalBase", "media_embed_enabled", "ctx_popup", "statprefix"];
+                for (var i = 0; site_k.length > i; i++) {
+                    Site[site_k[i]] = site_p[site_k[i]];
+                }
+           </script>
+        <link rel="stylesheet" type="text/css" href="/stc/??lj_base.css,esn.css,contextualhover.css,jquery/jquery.ui.theme.smoothness.css,lj_base-app.css,base-colors-light.css,reset.css,tropo/tropo-base.css,tropo/tropo-red.css?v=1593299549" />
+<script type="text/javascript" src="/js/??6alib/core.js,6alib/dom.js,6alib/httpreq.js,livejournal.js,esn.js,6alib/ippu.js,lj_ippu.js,6alib/hourglass.js,contextualhover.js,nav.js?v=1595720038"></script>
+
+    
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4595135-1']);
+  _gaq.push(['_trackPageview']);</script>
+
+    <!--[if lte IE 8]>
+    <script src="/js/html5.js" type="text/javascript"></script>
+    <![endif]-->
+</head>
+    <body >
+        <div id="canvas">
+            <div id="page">
+<div id="skip">
+     <a href="#content" tabindex="1">Skip to Main Content</a>
+</div>
+                
+                <div id="masthead" role="banner">
+                    <span id="logo">
+                        <a href="/"><img alt="Dreamwidth Studios" src='/img/tropo-red/dw_logo.png' /></a>
+                    </span>
+                </div>
+
+                <div id="content" role="main" >                <h1>Welcome back to Dreamwidth!</h1>
+                <table summary='' cellpadding='0' cellspacing='0'><tr><td style='padding-right:20px; vertical-align: top'><p>You're logged in as <span lj:user='wombat' style='white-space: nowrap;' class='ljuser'><a href='https://wombat.dreamwidth.org/profile'><img src='/img/silk/identity/user.png' alt='[personal profile] ' width='17' height='17' style='vertical-align: text-bottom; border: 0; padding-right: 1px;' /></a><a href='https://wombat.dreamwidth.org/'><b>wombat</b></a></span>. From here you can:</p>
+<br />
+<div style='float: left; padding: 5px 10px 0px 10px;'><img src="/img/silk/profile/post.png" width="20" height="18" alt="" title="" border='0' /></div>
+<div style='margin-left: 36px;'><h2><a href='/update'>Post to your Journal</a></h2>
+You can easily add a photo.<br />&nbsp;
+</div>
+<div style='float: left; padding: 5px 10px 0px 10px'><img src="/img/silk/identity/user.png" width="16" height="16" alt="User" title="User" border='0' /></div>
+<div style='margin-left: 36px'><h2><a href='https://wombat.dreamwidth.org/read'>View your Reading Page</a></h2>
+Read the latest additions to the journals, communities, and feeds you're subscribed to.<br />&nbsp;</div>
+<br />
+<form action='login' method='post' id='login'>
+<input type='hidden' name="lj_form_auth" value="c0:1638115200:1222:86400:sJaO162LEn-470-120:90fddf902db6f40d6281c8429f24fc2d" /><h2>Change login options</h2><table summary='' cellpadding='3' class='solid-neutral' style='width: 300px; border: 1px solid #aaa'>
+<tr><td colspan='2' style='white-space: nowrap;'><tr valign='top'><td align='right'></td><td style='padding-bottom: 5px'><input type='checkbox' checked='checked' style="margin-left: 0px; margin-bottom: 0px;" name="expire" id="expire" value="never" /><label for='expire'>Remember me</label><br />
+<span style='color: #666; font-size: 0.8em'>Log in automatically on this computer</span></td></tr>
+</tr>
+<tr valign='top'><td></td><td style='padding-bottom: 10px'><input type='checkbox' value="yes" name="bindip" id="bindip" style="margin-left: 0px; margin-bottom: 0px;" /><label for='bindip'>Bind cookie to IP address</label></td></tr>
+</tr><tr><td></td><td><input name='action:change' type='submit' value='Save' />&nbsp;&nbsp;<input type='submit' name='action:logout' value='Log out' /></td></tr></table>
+</form>
+</td></tr></table>
+                </div>
+
+                 
+<div id="account-links" role="navigation" aria-label="Account Links"><div id='account-links-userpic'><a href='/manage/icons'>            <img src='https://v.dreamwidth.org/54361/470' height="80" width="80" alt='Manage Icons' /></a></div><div id='account-links-text'>
+    <form action='/logout' method='post'><input type='hidden' name="lj_form_auth" value="c0:1638115200:1222:86400:sJaO162LEn-470-120:90fddf902db6f40d6281c8429f24fc2d" /><span lj:user='wombat' style='white-space: nowrap;' class='ljuser'><a href='https://wombat.dreamwidth.org/profile'><img src='/img/silk/identity/user.png' alt='[personal profile] ' width='17' height='17' style='vertical-align: text-bottom; border: 0; padding-right: 1px;' /></a><a href='https://wombat.dreamwidth.org/'><b>wombat</b></a></span>        <input type="hidden" name="ret" value="1" />
+        <input type="submit" name="logout_one" value="Log out" />
+    </form><ul><li><a href='/update'>Post</a></li><li><a href='https://wombat.dreamwidth.org/read'>Reading Page</a></li><li><a href='/inbox/'>Inbox <span id='Inbox_Unread_Count'>(737)</span></a></li></ul><ul><li><a href='/manage/settings/'>Account Settings</a></li><li><a href='/support/'>Help/Support</a></li></ul></div> 
+</div> 
+                
+                <nav role="navigation" aria-label="Site Navigation">
+                    <ul class="left"><li id='create_topnav' class='topnav has-dropdown'><a href='/nav/create'>Create</a>
+<ul id='create_subnav' class='subnav_container dropdown'>
+                <li class='subnav'><a href='/update'>Post Entry</a></li>
+                <li class='subnav'><a href='/editjournal'>Edit Entries</a></li>
+                <li class='subnav'><a href='/manage/profile/'>Edit Profile</a></li>
+                <li class='subnav'><a href='/manage/icons'>Upload Icons (3 of 15)</a></li>
+                <li class='subnav'><a href='/file/new'>Upload Images</a></li>
+                <li class='subnav'><a href='/communities/new'>Create Community</a></li>
+</ul>
+</li><li id='organize_topnav' class='topnav has-dropdown'><a href='/nav/organize'>Organize</a>
+<ul id='organize_subnav' class='subnav_container dropdown'>
+                <li class='subnav'><a href='/manage/settings/'>Manage Account</a></li>
+                <li class='subnav'><a href='/manage/circle/edit'>Manage Circle</a></li>
+                <li class='subnav'><a href='/manage/subscriptions/filters'>Manage Filters</a></li>
+                <li class='subnav'><a href='/manage/tags'>Manage Tags</a></li>
+                <li class='subnav'><a href='/communities/list'>Manage Communities</a></li>
+                <li class='subnav'><a href='/file/edit'>Manage Images</a></li>
+                <li class='subnav'><a href='/tools/importer'>Import Content</a></li>
+                <li class='subnav'><a href='/customize/'>Select Style</a></li>
+                <li class='subnav'><a href='/customize/options'>Customize Style</a></li>
+                <li class='subnav'><a href='/beta'>Test Beta Features</a></li>
+</ul>
+</li><li id='read_topnav' class='topnav has-dropdown'><a href='/nav/read'>Read</a>
+<ul id='read_subnav' class='subnav_container dropdown'>
+                <li class='subnav'><a href='https://wombat.dreamwidth.org/read'>Reading Page</a></li>
+                <li class='subnav'><a href='https://wombat.dreamwidth.org/profile'>Profile</a></li>
+                <li class='subnav'><a href='/feeds/'>Feeds</a></li>
+                <li class='subnav'><a href='https://wombat.dreamwidth.org/tag'>Tags</a></li>
+                <li class='subnav'><a href='https://wombat.dreamwidth.org/archive'>Archive</a></li>
+                <li class='subnav'><a href='/comments/recent'>Recent Comments</a></li>
+                <li class='subnav'><a href='/inbox/'>Inbox <span id='Inbox_Unread_Count_Menu'> (737)</span></a></li>
+</ul>
+</li><li id='explore_topnav' class='topnav has-dropdown'><a href='/nav/explore'>Explore</a>
+<ul id='explore_subnav' class='subnav_container dropdown'>
+                <li class='subnav'><a href='/interests'>Interests</a></li>
+                <li class='subnav'><a href='/directorysearch'>Directory Search</a></li>
+                <li class='subnav'><a href='/search'>Site and Journal Search</a></li>
+                <li class='subnav'><a href='/latest'>Latest Things</a></li>
+                <li class='subnav'><a href='/random'>Random Journal</a></li>
+                <li class='subnav'><a href='/community/random'>Random Community</a></li>
+                <li class='subnav'><a href='/support/faq'>FAQ</a></li>
+</ul>
+</li><li id='shop_topnav' class='topnav has-dropdown'><a href='/nav/shop'>Shop</a>
+<ul id='shop_subnav' class='subnav_container dropdown'>
+                <li class='subnav'><a href='/shop'>Buy Dreamwidth Services</a></li>
+                <li class='subnav'><a href='/shop/history'>Payment History</a></li>
+                <li class='subnav'><a href='/shop/gifts'>Circle Gifts</a></li>
+                <li class='subnav'><a href='/shop/randomgift'>Gift a Random User</a></li>
+                <li class='subnav'><a href='/shop/transferpoints'>Send Shop Points</a></li>
+                <li class='subnav'><a href='https://www.zazzle.com/dreamwidth*'>DW Merchandise</a></li>
+</ul>
+</li>
+</ul>
+                    <div role="search">
+                    <div class='appwidget appwidget-search' id='LJWidget_3'>
+<form action='/multisearch' method='post'>
+<input type="text" size="20" title="Search" id="search" class="text" name="q" /> <select class="select" name="type">
+<option value="int" selected='selected'>Interest</option>
+<option value="region">Region</option>
+<option value="nav_and_user">Site and Account</option>
+<option value="faq">FAQ</option>
+<option value="email">Email</option>
+<option value="im">IM Info</option>
+</select> <input type='submit' value="Go" /></form></div><!-- end .appwidget-search -->
+
+                    </div>
+                </nav>
+                <footer role="contentinfo">
+                    <ul>
+    <li><a href="/legal/privacy">Privacy Policy</a> &bull; </li>
+    <li><a href="/legal/tos">Terms of Service</a> &bull; </li>
+    <li><a href="/legal/diversity">Diversity Statement</a> &bull; </li>
+    <li><a href="/legal/principles">Guiding Principles</a> &bull; </li>
+    <li><a href="/site/">Site Map</a> &bull; </li>
+    <li><a href="/site/suggest">Make a Suggestion</a> &bull; </li>
+    <li><a href="/site/opensource">Open Source</a> &bull; </li>
+    <li><a href="/support">Help/Support</a></li>
+</ul>
+<p>Copyright &copy; 2009-2021 Dreamwidth Studios, LLC. <a href="/site/opensource">Some</a> rights reserved.</p>
+                </footer>
+            </div>
+        </div>
+        <div id='statistics' style='text-align: left; font-size:0; line-height:0; height:0; overflow:hidden;'><script type="text/javascript">
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</div>
+     <div id="shim-alpha"> </div>
+    </body>
+</html>
+
