@@ -159,17 +159,17 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
 
             elif method=='POST':
 
-                if not self.check_headers(query,
+                fields['template-name'] = self.check_headers(query,
                         [
-                            ('user', 'wombat', 'Unknown user'),
-                            ('password', 'hunter2', 'Wrong password'),
+                            ('user', 'wombat', 'Unknown user',
+                                'login-fail-username'),
+                            ('password', 'hunter2', 'Wrong password',
+                                'login-fail-password'),
                             ('lj_form_auth', self.server.lj_form_auth,
-                                'Wrong auth string'),
+                                'Wrong auth string',
+                                'login-fail-username'), # apparently
                             ],
-                        ):
-                   return
-
-                fields['template-name'] = 'logged-in'
+                        )
             else:
                 self.send_error(405, 'Unknown method')
 
@@ -217,22 +217,20 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
 
     def check_headers(self, query, checks):
 
-        for (field, value, message) in checks:
+        for (field, value, message, failure_template) in checks:
 
             field = bytes(field, encoding='ascii')
             value = [bytes(value, encoding='ascii')]
 
             if field not in query:
-                self.send_error(410,
-                        f'{message}: {field} missing')
-                return False
+                print(f'{message}: {field} missing')
+                return failure_template
 
             elif query[field]!=value:
-                self.send_error(410,
-                        f'{message}: got {query[field]}, wanted {value}')
-                return False
+                print(f'{message}: got {query[field]}, wanted {value}')
+                return failure_template
 
-        return True
+        return 'login-success'
 
 
 class TCPServerWithSettings(socketserver.TCPServer):
