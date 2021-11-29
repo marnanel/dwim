@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
         mode: 'development',
@@ -21,5 +22,12 @@ module.exports = {
                                 }
                         },
                 ],
-        }
+        },
+        plugins: [
+                // fix "process is not defined" error:
+                // https://stackoverflow.com/questions/41359504/webpack-bundle-js-uncaught-referenceerror-process-is-not-defined
+                new webpack.ProvidePlugin({
+                        process: 'process/browser',
+                }),
+        ]
 }
