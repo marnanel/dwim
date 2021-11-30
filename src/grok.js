@@ -1,5 +1,4 @@
 var tough = require('tough-cookie');
-var JSSoup = require('jssoup').default;
 
 var url = 'http://127.0.0.1:6887/login';
 
@@ -43,16 +42,11 @@ export function grok_login1(callback) {
                 {},
                 function(response) {
 
-                        var soup = new JSSoup(response.data);
+                        var html = $('<html>').append(
+                                $.parseHTML(response.data));
 
-                        // jssoup apparently doesn't let you search
-                        // by id at present
-                        for (var tag of soup.findAll('input')) {
-                                if (tag.attrs.name=='lj_form_auth') {
-                                        result['auth'] = tag.attrs.value;
-                                        break;
-                                }
-                        }
+                        result['auth'] = html.find('[name="lj_form_auth"]').
+                                attr('value');
 
                         set_cookies(url, response);
 
