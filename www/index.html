@@ -7,6 +7,7 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/dwim.css">
 		<link rel="stylesheet" type="text/css" href="js/jquery-1.5.0.mobile.min.css">
 		<style>
 		/* For avoiding title truncation in wp8 */
@@ -24,13 +25,18 @@
     </head>
     <body>
 		<!-- jquery mobile page 1 -->
-		<div data-role="page" id="page1">
+		<div data-role="page" id="login-page">
 			<div data-role="header">
-				<h1>Page 1</h1>
+				<h1>Log in</h1>
 			</div>
 
-			<div role="main" class="ui-content">
-                       This is the login page.
+			<div role="main" id="login-form" class="ui-content">
+                            <label for="username">Username</label>
+                            <input id="username">
+                            <label for="password">Password</label>
+                            <input id="password" type="password">
+                            <input type="button" id="submitlogin"
+                            value="Log in">
         </div>
 					<a href="#page2">Goto page2</a>
 		</div>

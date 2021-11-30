@@ -1,0 +1,16 @@
+#login-page .ui-content {
+        background-image: url('../lavender-dream-by-huhu.jpg');
+        background-size: cover;
+}
+
+.ui-page {
+        height: 100%;
+}
+
+#login-form {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 25em;
+        height: 100%;
+}
