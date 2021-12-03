@@ -1,6 +1,12 @@
 var tough = require('tough-cookie');
 
-var url = 'http://127.0.0.1:6887/login';
+var DREAMWIDTH_URL = 'https://dreamwidth.org';
+export var grok_url = DREAMWIDTH_URL;
+
+export function grok_set_url(url) {
+        console.log("Requests will go to: "+url);
+        grok_url = url;
+}
 
 function set_cookies(url, response) {
 
@@ -27,7 +33,7 @@ function set_cookies(url, response) {
         for (var cookie of cookies) {
                 console.log("Setting cookie: "+cookie.key+" = "+cookie.value)
                 cordova.plugin.http.setCookie(
-                        url,
+                        grok_url,
                         cookie,
                 )
         }
@@ -37,7 +43,7 @@ export function grok_login1(callback) {
 
         var result = {};
 
-        cordova.plugin.http.get(url,
+        cordova.plugin.http.get(grok_url,
                 {},
                 {},
                 function(response) {
@@ -48,7 +54,7 @@ export function grok_login1(callback) {
                         result['auth'] = html.find('[name="lj_form_auth"]').
                                 attr('value');
 
-                        set_cookies(url, response);
+                        set_cookies(grok_url, response);
 
                         result['success'] = true;
 
@@ -66,7 +72,7 @@ export function grok_login2(callback, auth, username, password) {
 
         var result = {};
 
-        cordova.plugin.http.post(url,
+        cordova.plugin.http.post(grok_url,
                 {
                         'lj_form_auth': auth,
                         'user': username,
