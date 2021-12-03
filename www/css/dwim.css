@@ -1,16 +1,34 @@
 #login-page .ui-content {
         background-image: url('../lavender-dream-by-huhu.jpg');
         background-size: cover;
-}
-
-.ui-page {
-        height: 100%;
+        height: 100vh;
+        color: #fffdd0;
+        font-weight: bold;
+        font-size: 20pt;
+        text-transform: none;
 }
 
 #login-form {
         text-align: center;
         margin-left: auto;
         margin-right: auto;
+        margin-bottom: auto;
         max-width: 25em;
-        height: 100%;
+        height: 100vh;
+        padding-top: 0;
+        padding-bottom: 0;
+}
+
+#login-page label, #login-title {
+        margin-top: 1em;
+        color: #fffdd0;
+        font-size: 20pt;
+}
+
+#login-message {
+        border: 1px black solid;
+        background-color: #fffdd0;
+        color: #000;
+        font-size: 12pt;
+        display: none;
 }

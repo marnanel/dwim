@@ -24,54 +24,49 @@
         <title>dwim</title>
     </head>
     <body>
-		<!-- jquery mobile page 1 -->
-		<div data-role="page" id="login-page">
-			<div data-role="header">
-				<h1>Log in</h1>
-			</div>
+            <!-- jquery mobile page 1 -->
+            <div data-role="page" id="login-page">
+                    <div role="main" id="login-form" class="ui-content">
+                            <div id="login-title">
+                                    Welcome to dwim!
+                            </div>
 
-			<div role="main" id="login-form" class="ui-content">
+                            <div id="version">
+                                    0.1 (ridequat)
+                            </div>
+
                             <label for="username">Username</label>
                             <input id="username">
                             <label for="password">Password</label>
                             <input id="password" type="password">
-                            <input type="button" id="submitlogin"
-                            value="Log in">
-        </div>
-					<a href="#page2">Goto page2</a>
-		</div>
-			<!-- end of page 1 content -->
+                            <input type="button" id="submit-login"
+                                                 value="Log in">
+                            <div id="login-message">
+                                    ...
+                            </div>
+                    </div>
+                    <!-- end of page 1 content -->
 
-			<div data-role="footer" data-position="fixed">
-				<h4>Page 1 Footer</h4>
-			</div>
-			<!-- end page 1 footer -->
-		</div>
-		<!-- end page 1 -->
+            </div>
+            <!-- end page 1 -->
 
-		<!-- jquery mobile page 2 -->
-		<div data-role="page" id="page2">
-			<div data-role="header">
-				<h1>Page 2</h1>
-			</div>
+            <!-- jquery mobile page 2 -->
+            <div data-role="page" id="page2">
+                    <div role="main" class="ui-content">
+                            <p>Page 2 content goes here</p>
+                    </div>
+            </div>
+            <!-- end page 2 -->
 
-			<div role="main" class="ui-content">
-				<h4>Page 2 content goes here</h4>
-				<a href="#page1">Goto page1</a>
-			</div>
-			<!-- end of page 2 content -->
-
-			<div data-role="footer" data-position="fixed">
-				<h4>Page 2 Footer</h4>
-			</div>
-			<!-- end page 2 footer -->
-		</div>
-		<!-- end page 2 -->
-<script src="cordova.js"></script><script type="text/javascript" src="js/jquery-1.11.1.min.js" id="cordova-jquery"></script><script type="text/javascript" id="jqm-trans-disable">
-		/* For having a faster transition */
-		$(document).on("mobileinit", function() {
-				$.mobile.defaultPageTransition = "none";
-				$.mobile.defaultDialogTransition = "none";
-		});
-		</script><script type="text/javascript" src="js/jquery-1.5.0.mobile.min.js"></script><script src="index.bundle.js"></script></body>
+            <script src="cordova.js"></script>
+            <script type="text/javascript" src="js/jquery-1.11.1.min.js" id="cordova-jquery"></script>
+            <script type="text/javascript" id="jqm-trans-disable">
+                    /* For having a faster transition */
+                    $(document).on("mobileinit", function() {
+                                                $.mobile.defaultPageTransition = "none";
+                                                $.mobile.defaultDialogTransition = "none";
+                                        });
+            </script>
+            <script type="text/javascript" src="js/jquery-1.5.0.mobile.min.js"></script><script src="index.bundle.js"></script>
+    </body>
 </html>
