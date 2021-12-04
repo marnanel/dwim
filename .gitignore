@@ -9,6 +9,7 @@ node_modules/
 
 package-lock.json
 www/index.bundle.js
+yarn.lock
 
 *.swo
 *.swp
