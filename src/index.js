@@ -30,7 +30,6 @@ function onDeviceReady() {
 
 function handle_login1(login1) {
         ui_login_show_message("Logging in...");
-        console.log("login: part 2");
         grok_login2(
                 handle_login2,
                 login1['auth'],
@@ -40,6 +39,10 @@ function handle_login1(login1) {
 }
 
 function handle_login2(login2) {
-        ui_login_show_message("Success!");
-        console.log(login2);
+
+        if (login2['success']) {
+                ui_login_show_message("Success!");
+        } else {
+                ui_login_show_message(login2['message']);
+        }
 }
