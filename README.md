@@ -1,5 +1,8 @@
 ![dwim](doc/dwim-with-name.png)
 
+[git@gitlab.com:marnanel/dwim.git]([gitlab repo])
+[git@github.com:marnanel/dwim.git]([github mirror])
+
 Welcome to dwim 0.1 (ridequat)!
 
 dwim is a [Dreamwidth](https://www.dreamwidth.org) mobile client. At present, it does very little: it allows you to log in to Dreamwidth, and nothing more.
