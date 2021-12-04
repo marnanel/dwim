@@ -50,6 +50,5 @@ Use `python fake-dw/fake-dw.py --help` for more information.
 
 Thanks go to Denise Paolucci and Mark Smith for bringing us this beautiful site.
 
-The background photo is currently
-[Lavender Dream](https://commons.wikimedia.org/wiki/File:Lavender_Dream_(Interplant_1985%29.jp%67)
+The background photo is currently "Lavender Dream"
 by Huhu. It's public domain.
