@@ -2,7 +2,7 @@
 
 Welcome to dwim 0.1 (ridequat)!
 
-dwim is a Dreamwidth mobile client. At present, it does very little: it allows you to log in to Dreamwidth, and nothing more.
+dwim is a [Dreamwidth](https://www.dreamwidth.org) mobile client. At present, it does very little: it allows you to log in to Dreamwidth, and nothing more.
 There will be more soon.
 
 # How to build
@@ -47,5 +47,5 @@ Use `python fake-dw/fake-dw.py --help` for more information.
 Thanks go to Denise Paolucci and Mark Smith for bringing us this beautiful site.
 
 The background photo is currently
-[Lavender Dream](https://commons.wikimedia.org/wiki/File:Lavender_Dream_(Interplant_1985%29.jpg)
+[Lavender Dream](https://commons.wikimedia.org/wiki/File:Lavender_Dream_(Interplant_1985%29.jp%67)
 by Huhu. It's public domain.
