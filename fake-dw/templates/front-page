@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<title>ersatz fake-dw</title>
+</html>
+<body>
+<h1>ersatz fake-dw</h1>
+<p>If you see this, the ersatz fake-dw daemon is running properly.</p>
+
+<p>If you want to know more about that, see
+<a href="https://gitlab.com/marnanel/dwim">dwim's documentation</a>.
+</p>
+
+</body></html>

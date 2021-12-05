@@ -146,7 +146,11 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
             print('Query -->', query)
             print('Headers -->', self.headers)
 
-        if self.path=='/login':
+        if self.path=='/':
+
+            fields['template-name'] = 'front-page'
+
+        elif self.path=='/login':
 
             if method=='GET':
 
