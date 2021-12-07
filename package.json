@@ -1,51 +1,47 @@
 {
-  "name": "com.cordova.react",
+  "name": "org.marnanel.dwim",
   "displayName": "dwim",
-  "version": "1.0.0",
+  "version": "0.1.5",
   "description": "Dreamwidth client",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "test": "jest --watchAll"
   },
-  "keywords": [
-    "ecosystem:cordova"
-  ],
-  "author": "Marnanel",
+  "author": "Marnanel Thurman",
   "license": "gpl-2.0",
-  "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/preset-react": "^7.16.0",
-    "babel-loader": "^8.2.3",
-    "cordova-android": "^9.1.0",
-    "cordova-browser": "^6.0.0",
-    "cordova-plugin-advanced-http": "^3.2.2",
-    "cordova-plugin-file": "^6.0.2",
-    "cordova-plugin-whitelist": "^1.3.4",
-    "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
-  },
-  "cordova": {
-    "plugins": {
-      "cordova-plugin-whitelist": {},
-      "cordova-plugin-advanced-http": {
-        "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
-      }
-    },
-    "platforms": [
-      "browser",
-      "android"
-    ]
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
-    "cordova-jquery": "^0.1.6",
-    "process": "^0.11.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "tough-cookie": "^4.0.0",
-    "util": "^0.12.4",
-    "yargs": "^17.2.1",
-    "yargs-unparser": "^2.0.0"
+    "@expo/vector-icons": "^12.0.0",
+    "@react-navigation/bottom-tabs": "^6.0.5",
+    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/native-stack": "^6.1.0",
+    "expo": "~43.0.2",
+    "expo-asset": "~8.4.3",
+    "expo-constants": "~12.1.3",
+    "expo-font": "~10.0.3",
+    "expo-linking": "~2.4.2",
+    "expo-splash-screen": "~0.13.5",
+    "expo-status-bar": "~1.1.0",
+    "expo-web-browser": "~10.0.3",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-web": "0.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.64.12",
+    "jest-expo": "~43.0.0",
+    "typescript": "~4.3.5"
   }
 }
