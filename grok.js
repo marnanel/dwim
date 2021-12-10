@@ -1,4 +1,12 @@
-var tough = require('tough-cookie');
+import React from 'react';
+
+import {
+          SafeAreaView,
+          StyleSheet,
+          View,
+          TouchableOpacity,
+          Text,
+} from 'react-native';
 
 var DREAMWIDTH_URL = 'https://dreamwidth.org';
 export var grok_url = DREAMWIDTH_URL;
