@@ -2,6 +2,7 @@
 
 import http.server
 import socketserver
+import socket
 from http import HTTPStatus
 from urllib.parse import parse_qs
 import requests
@@ -14,6 +15,8 @@ LJ_FORM_AUTH_FORMAT = "c0:1637780400:1136:86400:5Asn7kYkEd-0-09Z5PuIllU4vZho:%(s
 class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
     server_version = 'fake-dw-gateway/0.0.1'
+
+    name = 'gateway'
 
     keep_headers = [
             'content-type',
@@ -267,6 +270,11 @@ def main():
             const=ErsatzHandler,
             help='Pretend to be Dreamwidth.',
             )
+    parser.add_argument('-H', '--host',
+            type=str,
+            default=None,
+            help='Host to listen on. Defaults to gethostname().',
+            )
     parser.add_argument('-p', '--port',
             type=int,
             default=6887,
@@ -283,14 +291,21 @@ def main():
         parser.print_usage()
         return
 
+    if args.host is None:
+        args.host = socket.gethostname()
+
     with TCPServerWithSettings(
-            ("", args.port),
+            (args.host, args.port),
             args.handler,
             settings = args,
             ) as httpd:
 
         httpd.allow_reuse_address = True
-        print(f"Now serving {args.handler} at port {args.port}.")
+        print(f"Now serving:")
+        print(f"Handler: {args.handler.__name__}")
+        print(f"Address: http://{args.host}:{args.port} "
+                "-- note, not https")
+        print(f"Use ctrl-C to abort.")
 
         httpd.serve_forever()
 
