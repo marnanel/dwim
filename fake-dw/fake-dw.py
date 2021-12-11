@@ -11,6 +11,8 @@ import os
 import random
 
 LJ_FORM_AUTH_FORMAT = "c0:1637780400:1136:86400:5Asn7kYkEd-0-09Z5PuIllU4vZho:%(session)s"
+USERNAME = 'wombat'
+PASSWORD = 'hunter2'
 
 class GatewayHandler(http.server.BaseHTTPRequestHandler):
 
@@ -168,9 +170,9 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
 
                 fields['template-name'] = self.check_headers(query,
                         [
-                            ('user', 'wombat', 'Unknown user',
+                            ('user', USERNAME, 'Unknown user',
                                 'login-fail-username'),
-                            ('password', 'hunter2', 'Wrong password',
+                            ('password', PASSWORD, 'Wrong password',
                                 'login-fail-password'),
                             ('lj_form_auth', self.server.lj_form_auth,
                                 'Wrong auth string',
@@ -301,11 +303,15 @@ def main():
             ) as httpd:
 
         httpd.allow_reuse_address = True
-        print(f"Now serving:")
+        print(f"-- Now serving: --")
         print(f"Handler: {args.handler.__name__}")
         print(f"Address: http://{args.host}:{args.port} "
                 "-- note, not https")
+        if args.handler==ErsatzHandler:
+            print(f"Username: {USERNAME}")
+            print(f"Password: {PASSWORD}")
         print(f"Use ctrl-C to abort.")
+        print()
 
         httpd.serve_forever()
 
