@@ -48,11 +48,11 @@ export default class App extends React.Component {
                 ).then(() => {
                     this.ui_login_show_message("Success!");
                 }).catch((error) => {
-                    this.ui_login_show_message(error);
+                    this.ui_login_show_message(String(error));
                 });
             }
             ).catch((error) => {
-                this.ui_login_show_message(error);
+                this.ui_login_show_message(String(error));
             });
     };
 
