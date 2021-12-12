@@ -1,129 +1,166 @@
 import React from 'react';
 
 import {
-          SafeAreaView,
-          StyleSheet,
-          View,
-          TouchableOpacity,
-          Text,
+    SafeAreaView,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Text,
 } from 'react-native';
 
-var DREAMWIDTH_URL = 'https://dreamwidth.org';
+import * as SecureStore from 'expo-secure-store';
+import tough from 'tough-cookie';
+import $ from 'jquery';
+
+///////////////////////////////////////
+
+//var DREAMWIDTH_URL = 'https://dreamwidth.org';
+var DREAMWIDTH_URL = 'http://aspidistra:6887'; // FIXME temporary
+
 export var grok_url = DREAMWIDTH_URL;
 
+///////////////////////////////////////
+
+async function cookie_string(response) {
+
+    var cookies;
+
+    console.log('Setting cookies from: '+response);
+
+    if (!response.headers['set-cookie']) {
+        console.log("    -- no cookies to set");
+        return;
+    }
+
+    if (response.headers['set-cookie'] instanceof Array)
+        cookies = response.headers['set-cookie'].map(Cookie.parse);
+    else
+        cookies = [Cookie.parse(response.headers['set-cookie'])];
+
+    console.log("    -- received cookies: "+cookies)
+
+    var result = cookies.cookieString();
+    console.log("    -- using cookies: "+result)
+    return result;
+}
+
+function make_post_body(params) {
+    var f = [];
+    for (var key in params) {
+        var encKey = encodeURIComponent(key);
+        var encValue = encodeURIComponent(params[key]);
+        f.push(encodedKey + '=' + encodedValue);
+    }
+    return f.join('&');
+}
+
+///////////////////////////////////////
+
 export function grok_set_url(url) {
-        console.log("Requests will go to: "+url);
-        grok_url = url;
+    console.log("Requests will go to: "+url);
+    grok_url = url;
 }
 
-function set_cookies(url, response) {
+export async function grok_login1() {
 
-        var cookies;
+    var cookieString = await SecureStore.getItemAsync('cookies');
 
-        console.log('Setting cookies from: ');
-        console.log(response);
-
-        for (var h of response.headers) {
-                console.log("    -- "+h+" = "+response.headers[h]);
-        }
-
-        if (!response.headers['set-cookie']) {
-                console.log("    -- no cookies to set");
-                return;
-        }
-
-        if (response.headers['set-cookie'] instanceof Array) {
-                cookies = response.headers['set-cookie'].map(Cookie.parse);
-        } else {
-                cookies = [Cookie.parse(response.headers['set-cookie'])];
-        }
-
-        for (var cookie of cookies) {
-                console.log("Setting cookie: "+cookie.key+" = "+cookie.value)
-                cordova.plugin.http.setCookie(
-                        grok_url,
-                        cookie,
-                )
-        }
-}
-
-export function grok_login1(callback) {
+    return new Promise((resolve, reject) => {
 
         var result = {};
 
-        cordova.plugin.http.get(grok_url,
-                {},
-                {},
-                function(response) {
+        console.log("Sending cookies: "+cookieString);
 
-                        var html = $('<html>').append(
-                                $.parseHTML(response.data));
-
-                        result['auth'] = html.find('[name="lj_form_auth"]').
-                                attr('value');
-
-                        set_cookies(grok_url, response);
-
-                        result['success'] = true;
-
-                        callback(result);
-                },
-                function(response) {
-                        result['success'] = false;
-                        result['message'] = response.error;
-
-                        callback(result);
-                });
-}
-
-export function grok_login2(callback, auth, username, password) {
-
-        var result = {};
-
-        cordova.plugin.http.post(grok_url,
+        fetch(grok_url, {
+            method: 'POST',
+            body: make_post_body(
                 {
+                    'lj_form_auth': auth,
+                    'user': username,
+                    'password': password,
+                    'remember_me': 1,
+                    'login': 'Log+in',
+                }),
+            headers: {
+                'Cookie': cookieString,
+            },
+        }).then((response) => {
+
+            var html = $('<html>').append(
+                $.parseHTML(response.data));
+
+            result['auth'] = html.find('[name="lj_form_auth"]').
+                attr('value');
+
+            result['cookies'] = cookie_string(response);
+
+            resolve(result);
+
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+};
+
+export async function grok_login2(auth, username, password) {
+
+    return new Promise((resolve, reject) => {
+
+        var result = {};
+
+        fetch(grok_url,
+            {
+                method: 'POST',
+                body: make_post_body(
+                    {
                         'lj_form_auth': auth,
                         'user': username,
                         'password': password,
                         'remember_me': 1,
                         'login': 'Log+in',
+                    }),
+                headers: {
+                    'Cookie': cookies,
                 },
-                {},
-                function(response) {
-                        console.log('----');
-                        console.log(response.headers);
-                        console.log('----');
-                        console.log(response.data);
+            },
+        ).then((response) => {
 
-                        var html = $('<html>').append(
-                                $.parseHTML(response.data));
+            console.log('----');
+            console.log(response.headers);
+            console.log('----');
+            console.log(response.data);
 
-                        var h1 = html.find('h1').html()
+            var html = $('<html>').append(
+                $.parseHTML(response.data));
 
-                        if (h1.includes('Welcome back')) {
-                                result['success'] = true;
-                        } else {
-                                result['success'] = false;
+            var h1 = html.find('h1').html()
 
-                                var blockquote = html.find('blockquote').html();
+            if (h1.includes('Welcome back')) {
+                result['success'] = true;
+            } else {
+                result['success'] = false;
 
-                                if (blockquote.includes('wrong password')) {
-                                        result['message'] = 'Wrong password.';
-                                } else if (blockquote.includes('This account name')) {
-                                        result['message'] = 'Unknown username.';
-                                } else {
-                                        result['message'] = 'Unknown error from site.';
-                                }
+                var blockquote = html.find('blockquote').html();
 
-                                console.log('Error from site:');
-                                console.log(blockquote);
-                        }
+                if (blockquote.includes('wrong password')) {
+                    result['message'] = 'Wrong password.';
+                } else if (blockquote.includes('This account name')) {
+                    result['message'] = 'Unknown username.';
+                } else {
+                    result['message'] = 'Unknown error from site.';
+                }
 
-                        callback(result);
-                },
-                function(response) {
-                        result['success'] = false;
-                        result['message'] = response.error;
-                        callback(result);
-                });
+                console.log('Error from site:');
+                console.log(blockquote);
+            }
+
+            callback(result);
+
+        }).catch((error) => {
+            result['success'] = false;
+            result['message'] = error;
+
+            callback(result);
+        });
+    });
 }
