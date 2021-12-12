@@ -10,7 +10,6 @@ import {
 
 import * as SecureStore from 'expo-secure-store';
 import tough from 'tough-cookie';
-import $ from 'jquery';
 
 ///////////////////////////////////////
 
@@ -86,11 +85,13 @@ export async function grok_login1() {
             },
         }).then((response) => {
 
-            var html = $('<html>').append(
-                $.parseHTML(response.data));
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(
+                response.data, 'text/html');
 
-            result['auth'] = html.find('[name="lj_form_auth"]').
-                attr('value');
+            result['auth'] = doc.querySelectorAll(
+                'name="lj_form_auth"]')[0].
+                getAttribute('value');
 
             result['cookies'] = cookie_string(response);
 
@@ -130,17 +131,22 @@ export async function grok_login2(auth, username, password) {
             console.log('----');
             console.log(response.data);
 
-            var html = $('<html>').append(
-                $.parseHTML(response.data));
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(
+                response.data, 'text/html');
 
-            var h1 = html.find('h1').html()
+            var h1 = doc.querySelectorAll(
+                'h1')[0].
+                innerHTML();
 
             if (h1.includes('Welcome back')) {
                 result['success'] = true;
             } else {
                 result['success'] = false;
 
-                var blockquote = html.find('blockquote').html();
+                var blockquote = doc.querySelectorAll(
+                    'blockquote'
+                )[0].innerHTML();
 
                 if (blockquote.includes('wrong password')) {
                     result['message'] = 'Wrong password.';

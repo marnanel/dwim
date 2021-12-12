@@ -11,7 +11,6 @@ import {
     grok_url,
 } from './grok.js';
 import logo from './assets/images/logo.png';
-import $ from 'jquery';
 
 export default class App extends React.Component {
 
@@ -58,7 +57,7 @@ export default class App extends React.Component {
     };
 
     ui_login_show_message(message) {
-        $("#login-message").show().text(message);
+        this.state.message = message;
         console.log(message);
     };
 
