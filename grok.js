@@ -10,11 +10,12 @@ import {
 
 import * as SecureStore from 'expo-secure-store';
 import tough from 'tough-cookie';
+import DOMParser from 'react-native-html-parser';
 
 ///////////////////////////////////////
 
 //var DREAMWIDTH_URL = 'https://dreamwidth.org';
-var DREAMWIDTH_URL = 'http://aspidistra:6887'; // FIXME temporary
+var DREAMWIDTH_URL = 'https://marnanel.org'; // FIXME temporary
 
 export var grok_url = DREAMWIDTH_URL;
 
@@ -62,32 +63,17 @@ export function grok_set_url(url) {
 
 export async function grok_login1() {
 
-    var cookieString = await SecureStore.getItemAsync('cookies');
-
     return new Promise((resolve, reject) => {
 
         var result = {};
 
-        console.log("Sending cookies: "+cookieString);
-
         fetch(grok_url, {
-            method: 'POST',
-            body: make_post_body(
-                {
-                    'lj_form_auth': auth,
-                    'user': username,
-                    'password': password,
-                    'remember_me': 1,
-                    'login': 'Log+in',
-                }),
-            headers: {
-                'Cookie': cookieString,
-            },
+            method: 'GET',
         }).then((response) => {
 
-            var parser = new DOMParser();
+            var parser = new DOMParser.DOMParser();
             var doc = parser.parseFromString(
-                response.data, 'text/html');
+                response.text(), 'text/html');
 
             result['auth'] = doc.querySelectorAll(
                 'name="lj_form_auth"]')[0].
@@ -160,13 +146,10 @@ export async function grok_login2(auth, username, password) {
                 console.log(blockquote);
             }
 
-            callback(result);
+            resolve(result);
 
         }).catch((error) => {
-            result['success'] = false;
-            result['message'] = error;
-
-            callback(result);
+            reject(error);
         });
     });
 }
