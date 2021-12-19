@@ -34,13 +34,15 @@ export default class App extends React.Component {
 
         grok_set_url(this.state.server);
 
-        grok_login1(this.handle_login1)
+        grok_login1()
             .then((login1) => {
+                console.log('g_l1 done');
+                console.log(login1);
 
                 this.ui_login_show_message("Logging in...");
+                return;
 
                 grok_login2(
-                    this.handle_login2,
                     login1['auth'],
                     this.state.username,
                     this.state.password,
@@ -52,6 +54,7 @@ export default class App extends React.Component {
                 });
             }
             ).catch((error) => {
+                console.log("g_l1 failed");
                 this.ui_login_show_message(String(error));
             });
     };

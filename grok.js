@@ -1,45 +1,39 @@
+import * as htmlparser2 from 'htmlparser2';
 import React from 'react';
 
 import {
     SafeAreaView,
     StyleSheet,
     View,
-    TouchableOpacity,
     Text,
 } from 'react-native';
 
 import * as SecureStore from 'expo-secure-store';
 import tough from 'tough-cookie';
-import DOMParser from 'react-native-html-parser';
 
 ///////////////////////////////////////
 
-//var DREAMWIDTH_URL = 'https://dreamwidth.org';
-var DREAMWIDTH_URL = 'https://marnanel.org'; // FIXME temporary
+var DREAMWIDTH_URL = 'https://dreamwidth.org';
+//var DREAMWIDTH_URL = 'https://marnanel.org'; // FIXME temporary
 
 export var grok_url = DREAMWIDTH_URL;
 
 ///////////////////////////////////////
 
-async function cookie_string(response) {
+function cookie_string(response) {
 
-    var cookies;
+    console.log('Setting cookies.');
 
-    console.log('Setting cookies from: '+response);
+    console.log(response.headers);
+    console.log(response.headers['set-cookie']);
 
-    if (!response.headers['set-cookie']) {
+    if (!response.headers.has('set-cookie')) {
         console.log("    -- no cookies to set");
-        return;
+        return null;
     }
 
-    if (response.headers['set-cookie'] instanceof Array)
-        cookies = response.headers['set-cookie'].map(Cookie.parse);
-    else
-        cookies = [Cookie.parse(response.headers['set-cookie'])];
+    var result = ""+tough.Cookie.parse(response.headers.get('set-cookie'));
 
-    console.log("    -- received cookies: "+cookies)
-
-    var result = cookies.cookieString();
     console.log("    -- using cookies: "+result)
     return result;
 }
@@ -49,7 +43,7 @@ function make_post_body(params) {
     for (var key in params) {
         var encKey = encodeURIComponent(key);
         var encValue = encodeURIComponent(params[key]);
-        f.push(encodedKey + '=' + encodedValue);
+        f.push(encKey + '=' + encValue);
     }
     return f.join('&');
 }
@@ -66,34 +60,90 @@ export async function grok_login1() {
     return new Promise((resolve, reject) => {
 
         var result = {};
+        console.log("grok_login1 begins...");
 
         fetch(grok_url, {
             method: 'GET',
         }).then((response) => {
 
-            var parser = new DOMParser.DOMParser();
-            var doc = parser.parseFromString(
-                response.text(), 'text/html');
+            if (!response.ok) {
+                console.log("    -- fetch failed");
+                result['success'] = false;
+                result['error'] = Response.statusText;
+                reject(result);
+                return;
+            }
 
-            result['auth'] = doc.querySelectorAll(
-                'name="lj_form_auth"]')[0].
-                getAttribute('value');
+            response.text().then(function(text) {
 
-            result['cookies'] = cookie_string(response);
+                console.log("    -- fetch succeeded");
 
-            resolve(result);
+                var hd;
+                try {
+                    hd = htmlparser2.parseDocument(text);
+                } catch(err) {
+                    console.log("parser failed:");
+                    console.log(err);
+                    return;
+                }
+
+                console.log("2");
+
+                const parser = new htmlparser2.Parser({
+                        onopentag(name, attributes) {
+                            if (attributes['name'] == "chal") {
+                                console.log("   -- it's chal");
+                                console.log(attributes['value']);
+                                result['chal'] = attributes['value'];
+                            }
+                        },
+                });
+                parser.write(text);
+                parser.end();
+
+                result['cookies'] = cookie_string(response);
+
+                console.log(result);
+
+                resolve(result);
+
+            }, function(error) {
+
+                console.log("parse fails");
+                console.log(JSON.stringify(error));
+
+                result['success'] = false;
+                result['error'] = error;
+                reject(result);
+            });
 
         }).catch((error) => {
-            reject(error);
+
+            console.log("fetch fails");
+            console.log(error);
+            console.log(JSON.stringify(error));
+
+            result['success'] = false;
+            result['error'] = error;
+            reject(result);
+
+
         });
     });
 };
 
-export async function grok_login2(auth, username, password) {
+export async function grok_login2(
+    auth,
+    username,
+    password,
+    cookies,
+) {
 
     return new Promise((resolve, reject) => {
 
         var result = {};
+
+        console.log("grok_login2 begins...");
 
         fetch(grok_url,
             {
@@ -117,22 +167,17 @@ export async function grok_login2(auth, username, password) {
             console.log('----');
             console.log(response.data);
 
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(
-                response.data, 'text/html');
-
-            var h1 = doc.querySelectorAll(
-                'h1')[0].
-                innerHTML();
+            var doc = cheerio.load(text);
+            var h1 = cheerio('h1').html();
 
             if (h1.includes('Welcome back')) {
                 result['success'] = true;
             } else {
                 result['success'] = false;
 
-                var blockquote = doc.querySelectorAll(
+                var blockquote = doc.querySelect(
                     'blockquote'
-                )[0].innerHTML();
+                ).innerHTML();
 
                 if (blockquote.includes('wrong password')) {
                     result['message'] = 'Wrong password.';
@@ -149,6 +194,8 @@ export async function grok_login2(auth, username, password) {
             resolve(result);
 
         }).catch((error) => {
+            console.log("grok_login2 fails");
+            console.log(JSON.stringify(error));
             reject(error);
         });
     });
