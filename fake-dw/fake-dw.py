@@ -162,7 +162,10 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
                 session = hex(random.randint(0, 65535))
                 self.server.session_id = session
                 fields['template-name']= 'login'
-                fields['set-cookie'] = f"ljuniq={session}; domain=localhost; path=/; expires=Sun, 23-Jan-2200 19:18:56 GMT"
+                fields['set-cookie'] = f"ljuniq={session}; "+\
+                        f"domain={self.server.settings.host}; path=/; "+\
+                        f"expires=Sun, 23-Jan-2200 19:18:56 GMT"
+
                 fields['session'] = session
                 self.server.lj_form_auth = LJ_FORM_AUTH_FORMAT % fields
 
