@@ -62,7 +62,7 @@ export async function grok_login1() {
         var result = {};
         console.log("grok_login1 begins...");
 
-        fetch(grok_url, {
+        fetch(grok_url+'/login', {
             method: 'GET',
         }).then((response) => {
 
