@@ -100,7 +100,7 @@ export default class App extends React.Component {
             <TextInput type="text" name="server"
             onChangeText={(text) => { this.state.server = text} }
             style={styles.input}
-            value={grok_url}
+            defaultValue={grok_url}
             />
 
             </View>
