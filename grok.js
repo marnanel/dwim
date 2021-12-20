@@ -13,8 +13,8 @@ import tough from 'tough-cookie';
 
 ///////////////////////////////////////
 
-var DREAMWIDTH_URL = 'https://dreamwidth.org';
-//var DREAMWIDTH_URL = 'https://marnanel.org'; // FIXME temporary
+//var DREAMWIDTH_URL = 'https://dreamwidth.org';
+var DREAMWIDTH_URL = 'http://192.168.1.64:6887'; // FIXME temporary
 
 export var grok_url = DREAMWIDTH_URL;
 
@@ -45,6 +45,7 @@ function make_post_body(params) {
         var encValue = encodeURIComponent(params[key]);
         f.push(encKey + '=' + encValue);
     }
+    console.log(f.join('&'));
     return f.join('&');
 }
 
@@ -66,14 +67,6 @@ export async function grok_login1() {
             method: 'GET',
         }).then((response) => {
 
-            if (!response.ok) {
-                console.log("    -- fetch failed");
-                result['success'] = false;
-                result['error'] = Response.statusText;
-                reject(result);
-                return;
-            }
-
             response.text().then(function(text) {
 
                 console.log("    -- fetch succeeded");
@@ -91,10 +84,8 @@ export async function grok_login1() {
 
                 const parser = new htmlparser2.Parser({
                         onopentag(name, attributes) {
-                            if (attributes['name'] == "chal") {
-                                console.log("   -- it's chal");
-                                console.log(attributes['value']);
-                                result['chal'] = attributes['value'];
+                            if (attributes['name'] == "lj_form_auth") {
+                                result['auth'] = attributes['value'];
                             }
                         },
                 });
@@ -145,58 +136,105 @@ export async function grok_login2(
 
         console.log("grok_login2 begins...");
 
-        fetch(grok_url,
-            {
-                method: 'POST',
-                body: make_post_body(
-                    {
-                        'lj_form_auth': auth,
-                        'user': username,
-                        'password': password,
-                        'remember_me': 1,
-                        'login': 'Log+in',
-                    }),
-                headers: {
-                    'Cookie': cookies,
-                },
+        console.log("2");
+
+        fetch(grok_url+'/login', {
+            redirect: 'follow',
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                "Cookie": cookies,
+                "Content-Type": "multipart/form-data",
             },
-        ).then((response) => {
+            body: make_post_body(
+                {
+                    'lj_form_auth': auth,
+                    'user': username,
+                    'password': password,
+                    'remember_me': 1,
+                    'login': 'Log+in',
+                }),
+        }).then((response) => {
 
             console.log('----');
             console.log(response.headers);
-            console.log('----');
-            console.log(response.data);
+            response.text().then(function(text) {
 
-            var doc = cheerio.load(text);
-            var h1 = cheerio('h1').html();
+                console.log('----');
+                console.log(response.data);
 
-            if (h1.includes('Welcome back')) {
-                result['success'] = true;
-            } else {
-                result['success'] = false;
+                var interesting_tags = {blockquote:1, h1:1};
+                var reading_for_tag = null;
+                var read_for_tag = {}
 
-                var blockquote = doc.querySelect(
-                    'blockquote'
-                ).innerHTML();
+                const parser = new htmlparser2.Parser({
+                    onopentag(name, attributes) {
 
-                if (blockquote.includes('wrong password')) {
-                    result['message'] = 'Wrong password.';
-                } else if (blockquote.includes('This account name')) {
-                    result['message'] = 'Unknown username.';
+                        if (interesting_tags.hasOwnProperty(name)) {
+                            reading_for_tag = name;
+
+                            if (!read_for_tag.hasOwnProperty(name)) {
+                                read_for_tag[name] = '';
+                            }
+                        }
+                    },
+                    onclosetag(name) {
+                        if (name==reading_for_tag) {
+                            reading_for_tag = null;
+                        }
+                    },
+                    ontext(text) {
+                        if (reading_for_tag!=null) {
+                            read_for_tag[reading_for_tag] += text;
+                        }
+                    },
+                });
+                parser.write(text);
+                parser.end();
+                console.log("--- Read these:");
+                console.log(read_for_tag);
+
+                if (read_for_tag.h1.includes('Welcome back')) {
+                    result['success'] = true;
                 } else {
-                    result['message'] = 'Unknown error from site.';
+                    result['success'] = false;
+
+                    if (read_for_tag.blockquote.includes('wrong password')) {
+                        result['message'] = 'Wrong password.';
+                    } else if (read_for_tag.blockquote.includes('This account name')) {
+                        result['message'] = 'Unknown username.';
+                    } else {
+                        result['message'] = 'Unknown error from site.';
+                    }
+
+                    console.log('Error from site:');
+                    console.log(read_for_tag.blockquote);
                 }
 
-                console.log('Error from site:');
-                console.log(blockquote);
-            }
+                if (result['success']) {
+                    resolve(result);
+                } else {
+                    reject(result);
+                }
+            }).catch((error) => {
+                console.log("fetch body fails");
+                console.log(error);
+                console.log(JSON.stringify(error));
 
-            resolve(result);
+                result['success'] = false;
+                result['error'] = error;
+                reject(result);
 
+            });
         }).catch((error) => {
-            console.log("grok_login2 fails");
+            console.log("fetch fails");
+            console.log(error);
             console.log(JSON.stringify(error));
-            reject(error);
+
+            result['success'] = false;
+            result['error'] = error;
+            reject(result);
+
         });
     });
 }
