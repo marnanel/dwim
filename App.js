@@ -40,7 +40,6 @@ export default class App extends React.Component {
                 console.log(login1);
 
                 this.ui_login_show_message("Logging in...");
-                return;
 
                 grok_login2(
                     login1['auth'],
@@ -50,12 +49,12 @@ export default class App extends React.Component {
                 ).then(() => {
                     this.ui_login_show_message("Success!");
                 }).catch((error) => {
-                    this.ui_login_show_message(String(error));
+                    this.ui_login_show_message(error['message']);
                 });
             }
             ).catch((error) => {
                 console.log("g_l1 failed");
-                this.ui_login_show_message(String(error));
+                this.ui_login_show_message("error: "+error);
             });
     };
 
