@@ -232,18 +232,22 @@ class ErsatzHandler(http.server.BaseHTTPRequestHandler):
         for (field, value, message, failure_template) in checks:
 
             field = bytes(field, encoding='ascii')
-            value = [bytes(value, encoding='ascii')]
 
             if field not in query:
                 print(f'{message}: {field} missing')
                 return failure_template
 
-            elif query[field]!=value:
-                print(f'{message}: got {query[field]}, wanted {value}')
+            received = str(query[field][0],
+                    encoding='ascii')
+
+            if field in [b'user']:
+                received = received.lower()
+
+            if received!=value:
+                print(f'{message}: got {received}, wanted {value}')
                 return failure_template
 
         return 'login-success'
-
 
 class TCPServerWithSettings(socketserver.TCPServer):
 
